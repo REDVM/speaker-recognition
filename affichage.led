@@ -1,0 +1,55 @@
+menuBar = MENU
+(
+	SUBMENU("Fichier",
+		MENU
+		(
+			SEPARATOR(),
+			itemQuitter = ITEM("Quitter",myaction)
+		)
+	),
+	SUBMENU("À propos",
+		MENU
+		(
+			itemAbout = ITEM("À propos",myaction)
+		)
+	)
+	
+)
+
+fenetrePrincipale = DIALOG[TITLE="Reconnaissance du locuteur",MENU="menuBar", MARGIN="5x5", RASTERSIZE="700x500", MINSIZE="700x500"]
+(
+	VBOX[GAP="5",ALIGNMENT="ALEFT",MARGIN="5x5", SHRINK="no"]
+	(
+		frameApprentissage = FRAME[TITLE="Chargement des fichiers pour la base d'apprentissage"]
+		(
+			HBOX[EXPANDCHILDREN="yes"]
+			(
+			
+				listeApprentissage = LIST[EXPAND="HORIZONTAL"](myaction),
+				VBOX[GAP="0", EXPANDCHILDREN="yes"](
+					boutonAjouterSonApprentissage   = BUTTON("Ajouter un nouveau fichier", myaction),
+					boutonSupprimerSonApprentissage = BUTTON("Supprimer le fichier selectionné ", myaction),
+					FILL(),
+					boutonLancerApprentissage = BUTTON[FONTSTYLE="Bold"]("Lancer le traitement", myaction)
+				)
+			)
+		),
+		frameIdentifier = FRAME[TITLE="Chargement du fichier pour la vérification/identification", ACTIVE="NO"](
+			HBOX
+			(
+				LABEL("Fichier choisi : "),
+				textVoixIdentifier = TEXT[READONLY="yes", EXPAND="horizontal"](myaction),
+				boutonAjouterVoixIdentifier = BUTTON("Ajouter la voix humaine à identifier", myaction)
+			)
+		),
+		frameResultat = FRAME[TITLE="Résultat", ACTIVE="NO"](
+			HBOX
+			(
+				textResultat = MULTILINE[EXPAND="yes", READONLY="yes"](myaction)
+			)
+		),
+		statusBar = LABEL("Barre de statut")
+	)
+)
+
+fenetreSonApprentissage = filedlg[TITLE="Fichier à importer pour la base d'apprentissage", DIALOGTYPE=OPEN, FILTER="*.wav", FILTERINFO="Fichier WAV", MULTIPLE="yes"]()
